@@ -26,22 +26,32 @@ class NewVisitorTest(unittest.TestCase):   #
         self.assertEqual(inputbox.get_attribute('placeholder'), 'Enter a to-do item')
 
 # She types buy peacock feathers into a text box
-        inputbox.send_keys('Buy Peacock feathers')
+        inputbox.send_keys('Buy peacock feathers')
 
 # When she hits enter the page updates displaying "by peacock feathers " as an item
         inputbox.send_keys(Keys.ENTER)
 
+
         table=self.browser.find_element_by_id('id_list_table')
         rows=table.find_elements_by_tag_name('tr')
-        self.assertTrue(any(row.text=='1: Buy peacock feathers' for row in rows),"New to-item did not appear in table")
+        self.assertIn('1: Buy peacock feathers',[row.text for row in rows])
 
-# There is a text box inviting her to add another item. She enters "use peacock feather to tie a fly"
-        self.fail('Finish the test') #
+# There is still a text box inviting her to add another item. She enters "Use peacock feather to make a fly"
+        inputbox=self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Use peacock feathers to make a fly')
+        inputbox.send_keys(Keys.ENTER)
+        table=self.browser.find_element_by_id('id_list_table')
+        rows=table.find_elements_by_tag_name('tr')
+        self.assertIn('1: Buy peacock feathers',[row.text for row in rows])
+        self.assertIn('2: Use peacock feathers to make a fly',[row.text for row in rows])
+
+
 # The page updates again and shows both items on a list
+
 
 # Edith wonders whether the site will remember her lists but sees it has generated a unique URL for her
 # There is text describing that
-
+        self.fail('Finish the test') #
 # Edith Visits the URL the list is still there
 
 # Edith goes back to sleep
